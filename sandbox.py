@@ -93,13 +93,14 @@ def update():
                     if random.randint(0,1) == 1: mod*=-1
                     if random.randint(0,1) == 1: pass
                     elif newpix[y+1][x+mod]    == '' : newpix[y+1][x+mod]    = 'b';newpix[y][x]  = '';pixels[y][x] = ''
-                    elif  random.randint(0,5) == 1 :newpix[y][x] = '';pixels[y][x] = 'm'
+                    elif random.randint(0,10) == 1 and newpix[y-1][x+mod] != 'b': pixels[y][x] = 'm'
                     for i in range(3):
                         for z in range(3):
                             if pixels[y+(i-1)][x+(z-1)]   == 'g' and random.randint(1,3) == 1: pixels[y+(i-1)][x+(z-1)] = 'f'
                             elif pixels[y+(i-1)][x+(z-1)] == 'w' and random.randint(1,3) == 1: pixels[y+(i-1)][x+(z-1)] = 't'
                             elif pixels[y+(i-1)][x+(z-1)] == 'p' and random.randint(1,3) == 1: pixels[y+(i-1)][x+(z-1)] = 'f'
                             elif pixels[y+(i-1)][x+(z-1)] == 'o' and random.randint(1,20) == 1: pixels[y+(i-1)][x+(z-1)] = 'b'
+                            elif pixels[y+(i-1)][x+(z-1)] == 'm' and random.randint(1,100) == 1: pixels[y+(i-1)][x+(z-1)] = 'b'
     pixels = newpix.copy()
 while run:
     for event in pygame.event.get():
