@@ -1,8 +1,8 @@
 import pygame,time,random,math
-h = 1000; w=h; d = 100; pw = int(w/d);run = True;barrow = '';size = 7
-pygame.init();window = pygame.display.set_mode((round(w*1.5),w ));clock = pygame.time.Clock()
-colors = {"blue":(0,0,200),"red":(200,0,0),"green":(0,200,200),"purple":(200,0,2),"yellow":(219, 211, 187),"grey":(50,50,50),"orange":(247, 169, 73),"white":(217, 217, 217),"grey2":(25,25,25),"oil":(54, 63, 70)}
-pixels = [['' for _ in range(d)]for _ in range(d)]; elm = {"g":"grey","w":"blue","s":"yellow","f":"orange","t":"white","p":"grey2","o":"oil"}
+h = 1000; w=h; d = 200; pw = int(w/d);run = True;barrow = '';size = 7
+pygame.init();window = pygame.display.set_mode((round(w*1.5),w ));clock = pygame.time.Clock();myfont = pygame.font.SysFont('Trebuchet MS', 30)
+colors = {"blue":(0,0,200),"red":(200,0,0),"green":(0,200,200),"purple":(200,0,2),"yellow":(219, 211, 187),"grey":(50,50,50),"orange":(247, 169, 73),"white":(217, 217, 217),"grey2":(25,25,25),"oil":(54, 63, 70),"st":(237, 232, 231)}
+pixels = [['p' for _ in range(d)]for _ in range(d)]; pixels[1][1] = 'f';elm = {"g":"grey","w":"blue","s":"yellow","f":"orange","t":"white","p":"grey2","o":"oil","m":"st"}
 def Reverse(tuples): return tuples[::-1]
 def update():
     global pixels
@@ -93,8 +93,8 @@ while run:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             if pos[0] <= w:
-                a = math.floor(pos[1]/10)
-                b = math.floor(pos[0]/10)
+                a = math.floor(pos[1]/pw)
+                b = math.floor(pos[0]/pw)
                 for i in range(size):
                     for l in range(size):
                         try:
@@ -110,5 +110,6 @@ while run:
             for i in elm:
                 if pixels[y][x] == i: pixel_array[x*pw:(x*pw)+pw, y*pw:(y*pw)+pw] = colors[elm[i]]
     for i,y in enumerate(elm): pixel_array[w+1:round(w*1.5),i*50:(i*50)+50] = colors[elm[y]]
-    pixel_array.close(); pygame.display.flip(); clock.tick(30)
+
+    pixel_array.close(); window.blit(myfont.render(str(round(clock.get_fps())), False, (255, 0, 0) if clock.get_fps() < 10 else (0,255,0)),(w-50,h-50));pygame.display.flip(); clock.tick(30)
 pygame.quit();exit()
