@@ -1,4 +1,5 @@
 import pygame,time,random,math
+#Hi
 h = 1000; w=h; d = 100; pw = int(w/d);run = True;barrow = '';size = 7
 pygame.init();window = pygame.display.set_mode((round(w*1.5),w ));clock = pygame.time.Clock();myfont = pygame.font.SysFont('Trebuchet MS', 30)
 colors = {"blue":(0,0,200),"red":(200,0,0),"green":(0,200,200),"purple":(200,0,2),"yellow":(219, 211, 187),"grey":(50,50,50),"orange":(247, 169, 73),"orange2":(207, 129, 33),"white":(217, 217, 217),"grey2":(25,25,25),"oil":(54, 63, 70),"st":(237, 232, 231)}
