@@ -83,13 +83,9 @@ def update():
                     if random.randint(0,1)     == 1: mod*=-1
                     if newpix[y-1][x]         == 'w' : newpix[y-1][x]        = 'o';newpix[y][x] = 'w';pixels[y][x] = 'w'
                     elif newpix[y+1][x]        == '' : newpix[y+1][x]        = 'o';newpix[y][x]  = '';pixels[y][x] = ''
-                    elif newpix[y+1][x]        == 'w' : newpix[y+1][x]        = 'o';newpix[y][x]  = 'w';pixels[y][x] = 'w'
                     elif newpix[y+1][x+mod]    == '' : newpix[y+1][x+mod]    = 'o';newpix[y][x]  = '';pixels[y][x] = ''
-                    elif newpix[y+1][x+mod]    == 'w' : newpix[y+1][x+mod]    = 'o';newpix[y][x]  = 'w';pixels[y][x] = 'w'
                     elif newpix[y][x+mod]      == '' : newpix[y][x+mod]      = 'o';newpix[y][x]  = '';pixels[y][x] = ''
-                    elif newpix[y][x+mod]      == 'w' : newpix[y][x+mod]      = 'o';newpix[y][x]  = 'w';pixels[y][x] = 'w'
                     elif newpix[y][x+(mod*-1)] == '' : newpix[y][x+(mod*-1)] = 'o';newpix[y][x]  = '';pixels[y][x] = ''
-                    elif newpix[y][x+(mod*-1)] == 'w' : newpix[y][x+(mod*-1)] = 'o';newpix[y][x]  = 'w';pixels[y][x] = 'w'
     pixels = newpix.copy()
 while run:
     for event in pygame.event.get():
