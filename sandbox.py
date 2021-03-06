@@ -2,12 +2,11 @@ import pygame,time,random,math
 import numpy as np
 h = 1000; w=h; d = 100; pw = int(w/d);run = True;barrow = '';size = 7
 pygame.init();window = pygame.display.set_mode((round(w*1.5),w ));clock = pygame.time.Clock();myfont = pygame.font.SysFont('Trebuchet MS', 30)
-colors = {"blue":(0,0,200),"red":(200,0,0),"green":(0,200,200),"purple":(200,0,2),"yellow":(219, 211, 187),"grey":(50,50,50),"orange":(247, 169, 73),"orange2":(207, 129, 33),"white":(217, 217, 217),"grey2":(25,25,25),"oil":(54, 63, 70),"st":(237, 232, 231),"glass":(151, 214, 190)}
-pixels = np.array([['p' for _ in range(d)]for _ in range(d)]); pixels[1][1] = 'f';elm = {"g":"grey","w":"blue","s":"yellow","f":"orange","t":"white","p":"grey2","o":"oil","m":"st","b":"orange2","gl":"glass"}
+pixels = np.array([['p' for _ in range(d)]for _ in range(d)]); pixels[1][1] = 'f';elm = {"g":(50,50,50),"w":(0,0,200),"s":(219, 211, 187),"f":(247, 169, 73),"t":(217, 217, 217),"p":(25,25,25),"o":(54, 63, 70),"m":(237, 232, 231),"b":(207, 129, 33),"gl":(151, 214, 190)}
 def Reverse(tuples): return tuples[::-1]
 def update():
     global pixels
-    newpix = np.array([i for i in (pixels)])
+    newpix = np.array([*pixels])
     for y in Reverse(range(len(pixels))):
         for x in range(len(pixels[0])):
             if pixels[y][x] == 's':
@@ -95,7 +94,7 @@ def update():
                     if random.randint(0,1) == 1: mod*=-1
                     if random.randint(0,1) == 1: pass
                     elif newpix[y+1][x+mod]    == '' : newpix[y+1][x+mod]    = 'b';newpix[y][x]  = ''
-                    elif random.randint(0,4) == 1 and newpix[y-1][x+mod] != 'b': newpix[y][x] = 'm'
+                    elif random.randint(0,4)   == 1 and newpix[y-1][x+mod] != 'b': newpix[y][x] = 'm'
                     for i in range(3):
                         for z in range(3):
                             if newpix[y+(i-1)][x+(z-1)]   == 'g' and random.randint(1,3) == 1: newpix[y+(i-1)][x+(z-1)] = 'f'
@@ -117,19 +116,19 @@ while run:
                 b = math.floor(pos[0]/pw)
                 for i in range(size):
                     for l in range(size):
-                        try:
-                            pixels[a - (i-math.floor(size/2))][b - (l-math.floor(size/2))]  = barrow
+                        try: pixels[a - (i-math.floor(size/2))][b - (l-math.floor(size/2))]  = barrow
                         except: pass
-
             else:
                 for i,y in enumerate(elm):
                     if pos[1] < 50*i+50 and pos[1] > 50*i: barrow = y
-    window.fill(0); pixel_array = pygame.PixelArray(window); update()
+    window.fill(0); pixel_array = pygame.PixelArray(window); #update()
     for y in range(len(pixels)):
         for x in range(len(pixels[0])):
             for i in elm:
-                if pixels[y][x] == i: pixel_array[x*pw:(x*pw)+pw, y*pw:(y*pw)+pw] = colors[elm[i]]
-    for i,y in enumerate(elm): pixel_array[w+1:round(w*1.5),i*50:(i*50)+50] = colors[elm[y]]
-
-    pixel_array.close(); window.blit(myfont.render(str(round(clock.get_fps())), False, (255, 0, 0) if clock.get_fps() < 10 else (0,255,0)),(w-50,h-50));pygame.display.flip(); clock.tick(1000)
+                if pixels[y][x] == i: pixel_array[x*pw:(x*pw)+pw, y*pw:(y*pw)+pw] = elm[i];break
+    for i,y in enumerate(elm): pixel_array[w+1:round(w*1.5),i*50:(i*50)+50] = elm[y]
+    pixel_array.close();
+    window.blit(myfont.render(str(round(clock.get_fps())), False, (255, 0, 0) if clock.get_fps() < 10 else (0,255,0)),(w-50,h-50))
+    pygame.display.flip()
+    clock.tick(30)
 pygame.quit();exit()
