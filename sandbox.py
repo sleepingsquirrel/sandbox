@@ -2,11 +2,11 @@ import pygame,time,random,math
 import numpy as np
 h = 1000; w=h; d = 100; pw = int(w/d);run = True;barrow = '';size = 7
 pygame.init();window = pygame.display.set_mode((round(w*1.5),w ));clock = pygame.time.Clock();myfont = pygame.font.SysFont('Trebuchet MS', 30)
-pixels = np.array([['p' for _ in range(d)]for _ in range(d)]); pixels[1][1] = 'f';elm = {"g":(50,50,50),"w":(0,0,200),"s":(219, 211, 187),"f":(247, 169, 73),"t":(217, 217, 217),"p":(25,25,25),"o":(54, 63, 70),"m":(237, 232, 231),"b":(207, 129, 33),"gl":(151, 214, 190)}
+pixels = np.array([['' for _ in range(d)]for _ in range(d)]); pixels[1][1] = 'f';elm = {"g":(50,50,50),"w":(0,0,200),"s":(219, 211, 187),"f":(247, 169, 73),"t":(217, 217, 217),"p":(25,25,25),"o":(54, 63, 70),"m":(237, 232, 231),"b":(207, 129, 33),"gl":(151, 214, 190)}
 def Reverse(tuples): return tuples[::-1]
 def update():
     global pixels
-    newpix = np.array([*pixels])
+    newpix = pixels.copy()
     for y in Reverse(range(len(pixels))):
         for x in range(len(pixels[0])):
             if pixels[y][x] == 's':
@@ -50,11 +50,12 @@ def update():
                     else: newpix[y][x] = ''
                     for i in range(3):
                         for z in range(3):
-                            if   newpix[y+(i-1)][x+(z-1)] == 'g' and random.randint(1,3)  == 1: newpix[y+(i-1)][x+(z-1)] = 'f'
-                            elif newpix[y+(i-1)][x+(z-1)] == 'w' and random.randint(1,3)  == 1: newpix[y+(i-1)][x+(z-1)] = 't'
-                            elif newpix[y+(i-1)][x+(z-1)] == 'p' and random.randint(1,3)  == 1: newpix[y+(i-1)][x+(z-1)] = 'f'
-                            elif newpix[y+(i-1)][x+(z-1)] == 'o' and random.randint(1,20) == 1: newpix[y+(i-1)][x+(z-1)] = 'b'
-                            elif newpix[y+(i-1)][x+(z-1)] == 's' and random.randint(1,20) == 1: newpix[y+(i-1)][x+(z-1)] = 'gl'
+                            temp1 = y+(i-1);temp2 = x+(z-1)
+                            if   newpix[temp1][temp2] == 'g' and random.randint(1,3)  == 1: newpix[temp1][temp2] = 'f'
+                            elif newpix[temp1][temp2] == 'w' and random.randint(1,3)  == 1: newpix[temp1][temp2] = 't'
+                            elif newpix[temp1][temp2] == 'p' and random.randint(1,3)  == 1: newpix[temp1][temp2] = 'f'
+                            elif newpix[temp1][temp2] == 'o' and random.randint(1,20) == 1: newpix[temp1][temp2] = 'b'
+                            elif newpix[temp1][temp2] == 's' and random.randint(1,20) == 1: newpix[temp1][temp2] = 'gl'
                     if random.randint(0,10) == 1: newpix[y][x] = ''
                 elif random.randint(0,3) == 1: newpix[y][x] = ''
             elif pixels[y][x] == 't':
@@ -97,15 +98,16 @@ def update():
                     elif random.randint(0,4)   == 1 and newpix[y-1][x+mod] != 'b': newpix[y][x] = 'm'
                     for i in range(3):
                         for z in range(3):
-                            if newpix[y+(i-1)][x+(z-1)]   == 'g' and random.randint(1,3) == 1: newpix[y+(i-1)][x+(z-1)] = 'f'
-                            elif newpix[y+(i-1)][x+(z-1)] == 'w' and random.randint(1,3) == 1:
-                                newpix[y+(i-1)][x+(z-1)] = 't'
+                            temp1 = y+(i-1);temp2 = x+(z-1);ra =random.randint(1,3)
+                            if newpix[temp1][temp2]   == 'g' and ra == 1: newpix[temp1][temp2] = 'f'
+                            elif newpix[temp1][temp2] == 'w' and ra == 1:
+                                newpix[temp1][temp2] = 't'
                                 if random.randint(0,1) == 1 and newpix[y-1][x+mod] != 'b': newpix[y][x] = 'm'
-                            elif newpix[y+(i-1)][x+(z-1)] == 'p' and random.randint(1,3) == 1: newpix[y+(i-1)][x+(z-1)] = 'f'
-                            elif newpix[y+(i-1)][x+(z-1)] == 'o' and random.randint(1,20) == 1: newpix[y+(i-1)][x+(z-1)] = 'b'
-                            elif newpix[y+(i-1)][x+(z-1)] == 'm' and random.randint(1,70) == 1: newpix[y+(i-1)][x+(z-1)] = 'b'
-                            elif newpix[y+(i-1)][x+(z-1)] == 's' and random.randint(1,20) == 1: newpix[y+(i-1)][x+(z-1)] = 'gl'
-    pixels = np.array([*newpix])
+                            elif newpix[temp1][temp2] == 'p' and ra == 1: newpix[temp1][temp2] = 'f'
+                            elif newpix[temp1][temp2] == 'o' and random.randint(1,20) == 1: newpix[temp1][temp2] = 'b'
+                            elif newpix[temp1][temp2] == 'm' and random.randint(1,70) == 1: newpix[temp1][temp2] = 'b'
+                            elif newpix[temp1][temp2] == 's' and random.randint(1,20) == 1: newpix[temp1][temp2] = 'gl'
+    pixels = newpix.copy()
 while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: run = False
@@ -121,10 +123,11 @@ while run:
             else:
                 for i,y in enumerate(elm):
                     if pos[1] < 50*i+50 and pos[1] > 50*i: barrow = y
-    window.fill(0); pixel_array = pygame.PixelArray(window); #update()
+    window.fill(0); pixel_array = pygame.PixelArray(window); update()
     for y in range(len(pixels)):
         for x in range(len(pixels[0])):
             for i in elm:
+                if pixels[y][x] == '': break
                 if pixels[y][x] == i: pixel_array[x*pw:(x*pw)+pw, y*pw:(y*pw)+pw] = elm[i];break
     for i,y in enumerate(elm): pixel_array[w+1:round(w*1.5),i*50:(i*50)+50] = elm[y]
     pixel_array.close();
