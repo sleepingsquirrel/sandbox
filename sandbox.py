@@ -1,112 +1,112 @@
 import pygame,time,random,math
 import numpy as np
-h = 1000; w=h; d = 100; pw = int(w/d);run = True;barrow = '';size = 7
+h = 1000; w=h; d = 100; pw = int(w/d);run = True;barrow = 0;size = 7
 pygame.init();window = pygame.display.set_mode((round(w*1.5),w ));clock = pygame.time.Clock();myfont = pygame.font.SysFont('Trebuchet MS', 30)
-pixels = np.array([['' for _ in range(d)]for _ in range(d)]); pixels[1][1] = 'f';elm = {"g":(50,50,50),"w":(0,0,200),"s":(219, 211, 187),"f":(247, 169, 73),"t":(217, 217, 217),"p":(25,25,25),"o":(54, 63, 70),"m":(237, 232, 231),"b":(207, 129, 33),"gl":(151, 214, 190)}
+pixels = np.array([[0 for _ in range(d)]for _ in range(d)]); pixels[1][1] = 4;elm = {1:(50,50,50),2:(0,0,200),3:(219, 211, 187),4:(247, 169, 73),5:(217, 217, 217),6:(25,25,25),7:(54, 63, 70),8:(237, 232, 231),9:(207, 129, 33),10:(151, 214, 190)}
 def Reverse(tuples): return tuples[::-1]
 def update():
     global pixels
     newpix = pixels.copy()
     for y in Reverse(range(len(pixels))):
         for x in range(len(pixels[0])):
-            if pixels[y][x] == 's':
+            if pixels[y][x] == 3:
                 if y+1 < len(newpix):
                     if x >= len(newpix)-1: x = -1
                     mod = 1
                     if random.randint(0,1)     == 1: mod*=-1
-                    if newpix[y+1][x]          == '' : newpix[y+1][x]        = 's';newpix[y][x] = ''
-                    elif newpix[y+1][x+mod]    == '' : newpix[y+1][x+mod]    = 's';newpix[y][x] = ''
-                    elif newpix[y+1][x]        == 'w': newpix[y+1][x]        = 's';newpix[y][x] = 'w'
-            elif pixels[y][x] == 'w':
+                    if newpix[y+1][x]          == 0 : newpix[y+1][x]        = 3;newpix[y][x] = 0
+                    elif newpix[y+1][x+mod]    == 0 : newpix[y+1][x+mod]    = 3;newpix[y][x] = 0
+                    elif newpix[y+1][x]        == 2: newpix[y+1][x]        = 3;newpix[y][x] = 2
+            elif pixels[y][x] == 2:
                 if y+1 < len(newpix):
                     if x >= len(newpix)-1: x = -1
                     mod = 1
                     if random.randint(0,1)     == 1: mod*=-1
-                    if newpix[y+1][x]          == '' : newpix[y+1][x]        = 'w';newpix[y][x]  = ''
-                    elif newpix[y+1][x+mod]    == '' : newpix[y+1][x+mod]    = 'w';newpix[y][x]  = ''
-                    elif newpix[y][x+mod]      == '' : newpix[y][x+mod]      = 'w';newpix[y][x]  = ''
-                    elif newpix[y][x+(mod*-1)] == '' : newpix[y][x+(mod*-1)] = 'w';newpix[y][x]  = ''
-            elif pixels[y][x] == 'g':
+                    if newpix[y+1][x]          == 0 : newpix[y+1][x]        = 2;newpix[y][x]  = 0
+                    elif newpix[y+1][x+mod]    == 0 : newpix[y+1][x+mod]    = 2;newpix[y][x]  = 0
+                    elif newpix[y][x+mod]      == 0 : newpix[y][x+mod]      = 2;newpix[y][x]  = 0
+                    elif newpix[y][x+(mod*-1)] == 0 : newpix[y][x+(mod*-1)] = 2;newpix[y][x]  = 0
+            elif pixels[y][x] == 1:
                 if 1<y+1 < len(newpix)+1:
                     if x >= len(newpix)-1: x = -1
                     mod = 1
                     if random.randint(0,1)     ==   1: mod*=-1
                     if random.randint(0,1) == 1: pass
-                    elif newpix[y-1][x]        == 'w' : newpix[y-1][x]        = 'g';newpix[y][x] = 'w'
-                    elif newpix[y-1][x]        == '' : newpix[y-1][x]        = 'g';newpix[y][x] = ''
-                    elif newpix[y-1][x+mod]    == '' : newpix[y-1][x+mod]    = 'g';newpix[y][x] = ''
-                    elif newpix[y][x+mod]      == '' : newpix[y][x+mod]      = 'g';newpix[y][x] = ''
-                    elif newpix[y][x+(mod*-1)] == '' : newpix[y][x+(mod*-1)] = 'g';newpix[y][x] = ''
+                    elif newpix[y-1][x]        == 2 : newpix[y-1][x]        = 1;newpix[y][x] = 2
+                    elif newpix[y-1][x]        == 0 : newpix[y-1][x]        = 1;newpix[y][x] = 0
+                    elif newpix[y-1][x+mod]    == 0 : newpix[y-1][x+mod]    = 1;newpix[y][x] = 0
+                    elif newpix[y][x+mod]      == 0 : newpix[y][x+mod]      = 1;newpix[y][x] = 0
+                    elif newpix[y][x+(mod*-1)] == 0 : newpix[y][x+(mod*-1)] = 1;newpix[y][x] = 0
                 else:
                     for z in range(3):
-                        if x + (z-1) <= 99 and newpix[y][x+(z-2)] == 'f': newpix[y][x] = 'f'
-            elif pixels[y][x] == 'f':
+                        if x + (z-1) <= 99 and newpix[y][x+(z-2)] == 4: newpix[y][x] = 4
+            elif pixels[y][x] == 4:
                 if 2<=y+1 < len(newpix):
                     if x >= len(newpix)-1: x = -1
                     mod = 1
                     if random.randint(0,1) == 1: mod*=-1
                     if random.randint(0,1) == 1: pass
-                    elif newpix[y-1][x+mod]    == '' : newpix[y-1][x+mod]    = 'f';newpix[y][x]  = '';continue
-                    else: newpix[y][x] = '';continue
+                    elif newpix[y-1][x+mod]    == 0 : newpix[y-1][x+mod]    = 4;newpix[y][x]  = 0;continue
+                    else: newpix[y][x] = 0;continue
                     for i in range(3):
                         for z in range(3):
                             temp1 = y+(i-1);temp2 = x+(z-1)
-                            if   newpix[temp1][temp2] == 'g' and random.randint(1,3)  == 1: newpix[temp1][temp2] = 'f'
-                            elif newpix[temp1][temp2] == 'w' and random.randint(1,3)  == 1: newpix[temp1][temp2] = 't'
-                            elif newpix[temp1][temp2] == 'p' and random.randint(1,3)  == 1: newpix[temp1][temp2] = 'f'
-                            elif newpix[temp1][temp2] == 'o' and random.randint(1,20) == 1: newpix[temp1][temp2] = 'b'
-                            elif newpix[temp1][temp2] == 's' and random.randint(1,20) == 1: newpix[temp1][temp2] = 'gl'
-                    if random.randint(0,10) == 1: newpix[y][x] = ''
-                elif random.randint(0,3) == 1: newpix[y][x] = ''
-            elif pixels[y][x] == 't':
+                            if   newpix[temp1][temp2] == 1 and random.randint(1,3)  == 1: newpix[temp1][temp2] = 4
+                            elif newpix[temp1][temp2] == 2 and random.randint(1,3)  == 1: newpix[temp1][temp2] = 5
+                            elif newpix[temp1][temp2] == 6 and random.randint(1,3)  == 1: newpix[temp1][temp2] = 4
+                            elif newpix[temp1][temp2] == 7 and random.randint(1,20) == 1: newpix[temp1][temp2] = 9
+                            elif newpix[temp1][temp2] == 3 and random.randint(1,20) == 1: newpix[temp1][temp2] = 10
+                    if random.randint(0,10) == 1: newpix[y][x] = 0
+                elif random.randint(0,3) == 1: newpix[y][x] = 0
+            elif pixels[y][x] == 5:
                 if 2<=y+1 < len(newpix):
                     if x >= len(newpix)-1: x = -1
                     mod = 1
                     if random.randint(0,1)     ==   1: mod*=-1
-                    if random.randint(0,120) == 1:  newpix[y][x] = 'w';continue
+                    if random.randint(0,120) == 1:  newpix[y][x] = 2;continue
                     if random.randint(0,1) == 1:pass
-                    elif newpix[y-1][x]           == 'w' : newpix[y-1][x]       = 't';newpix[y][x] = 'w'
-                    elif newpix[y-1][x+mod]       == '' : newpix[y-1][x+mod]    = 't';newpix[y][x] = ''
-                    elif newpix[y][x+mod]         == '' : newpix[y][x+mod]      = 't';newpix[y][x] = ''
-                    elif newpix[y][x+(mod*-1)]    == '' : newpix[y][x+(mod*-1)] = 't';newpix[y][x] = ''
-                elif random.randint(0,120) == 1:  newpix[y][x] = 'w';continue
-            elif pixels[y][x] == 'p':
+                    elif newpix[y-1][x]           == 2 : newpix[y-1][x]       = 5;newpix[y][x] = 2
+                    elif newpix[y-1][x+mod]       == 0 : newpix[y-1][x+mod]    = 5;newpix[y][x] = 0
+                    elif newpix[y][x+mod]         == 0 : newpix[y][x+mod]      = 5;newpix[y][x] = 0
+                    elif newpix[y][x+(mod*-1)]    == 0 : newpix[y][x+(mod*-1)] = 5;newpix[y][x] = 0
+                elif random.randint(0,120) == 1:  newpix[y][x] = 2;continue
+            elif pixels[y][x] == 6:
                 if y+1 < len(newpix):
                     if x >= len(newpix)-1: x = -1
                     mod = 1
                     if random.randint(0,1)     == 1: mod*=-1
-                    if newpix[y+1][x]          == '' : newpix[y+1][x]        = 'p';newpix[y][x] = ''
-                    elif newpix[y+1][x+mod]    == '' : newpix[y+1][x+mod]    = 'p';newpix[y][x] = ''
-                    elif newpix[y+1][x]        == 'w': newpix[y+1][x]        = 'p';newpix[y][x] = 'w'
-            elif pixels[y][x] == 'o':
+                    if newpix[y+1][x]          == 0 : newpix[y+1][x]        = 6;newpix[y][x] = 0
+                    elif newpix[y+1][x+mod]    == 0 : newpix[y+1][x+mod]    = 6;newpix[y][x] = 0
+                    elif newpix[y+1][x]        == 2: newpix[y+1][x]        = 6;newpix[y][x] = 2
+            elif pixels[y][x] == 7:
                 if y+1 < len(newpix):
                     if x >= len(newpix)-1: x = -1
                     mod = 1
                     if random.randint(0,1)     == 1: mod*=-1
-                    if newpix[y-1][x]         == 'w' : newpix[y-1][x]        = 'o';newpix[y][x] = 'w'
-                    elif newpix[y+1][x]        == '' : newpix[y+1][x]        = 'o';newpix[y][x]  = ''
-                    elif newpix[y+1][x+mod]    == '' : newpix[y+1][x+mod]    = 'o';newpix[y][x]  = ''
-                    elif newpix[y][x+mod]      == '' : newpix[y][x+mod]      = 'o';newpix[y][x]  = ''
-                    elif newpix[y][x+(mod*-1)] == '' : newpix[y][x+(mod*-1)] = 'o';newpix[y][x]  = ''
-            elif pixels[y][x] == 'b':
+                    if newpix[y-1][x]         == 2 : newpix[y-1][x]        = 7;newpix[y][x] = 2
+                    elif newpix[y+1][x]        == 0 : newpix[y+1][x]        = 7;newpix[y][x]  = 0
+                    elif newpix[y+1][x+mod]    == 0 : newpix[y+1][x+mod]    = 7;newpix[y][x]  = 0
+                    elif newpix[y][x+mod]      == 0 : newpix[y][x+mod]      = 7;newpix[y][x]  = 0
+                    elif newpix[y][x+(mod*-1)] == 0 : newpix[y][x+(mod*-1)] = 7;newpix[y][x]  = 0
+            elif pixels[y][x] == 9:
                 if y+1 < len(newpix):
                     if x >= len(newpix)-1: x = -1
                     mod = 1
                     if random.randint(0,1) == 1: mod*=-1
                     if random.randint(0,1) == 1: continue
-                    elif newpix[y+1][x+mod]    == '' : newpix[y+1][x+mod]    = 'b';newpix[y][x]  = '' ;continue
-                    elif random.randint(0,4)   == 1 and newpix[y-1][x+mod] != 'b': newpix[y][x] = 'm' ;continue
+                    elif newpix[y+1][x+mod]    == 0 : newpix[y+1][x+mod]    = 9;newpix[y][x]  = 0 ;continue
+                    elif random.randint(0,4)   == 1 and newpix[y-1][x+mod] != 9: newpix[y][x] = 8 ;continue
                     for i in range(3):
                         for z in range(3):
                             temp1 = y+(i-1);temp2 = x+(z-1);ra =random.randint(1,3)
-                            if newpix[temp1][temp2]   == 'g' and ra == 1: newpix[temp1][temp2] = 'f'
-                            elif newpix[temp1][temp2] == 'w' and ra == 1:
-                                newpix[temp1][temp2] = 't'
-                                if random.randint(0,1) == 1 and newpix[y-1][x+mod] != 'b': newpix[y][x] = 'm'
-                            elif newpix[temp1][temp2] == 'p' and ra == 1: newpix[temp1][temp2] = 'f'
-                            elif newpix[temp1][temp2] == 'o' and random.randint(1,20) == 1: newpix[temp1][temp2] = 'b'
-                            elif newpix[temp1][temp2] == 'm' and random.randint(1,70) == 1: newpix[temp1][temp2] = 'b'
-                            elif newpix[temp1][temp2] == 's' and random.randint(1,20) == 1: newpix[temp1][temp2] = 'gl'
+                            if newpix[temp1][temp2]   == 1 and ra == 1: newpix[temp1][temp2] = 4
+                            elif newpix[temp1][temp2] == 2 and ra == 1:
+                                newpix[temp1][temp2] = 5
+                                if random.randint(0,1) == 1 and newpix[y-1][x+mod] != 9: newpix[y][x] = 8
+                            elif newpix[temp1][temp2] == 6 and ra == 1: newpix[temp1][temp2] = 4
+                            elif newpix[temp1][temp2] == 7 and random.randint(1,20) == 1: newpix[temp1][temp2] = 9
+                            elif newpix[temp1][temp2] == 8 and random.randint(1,70) == 1: newpix[temp1][temp2] = 9
+                            elif newpix[temp1][temp2] == 3 and random.randint(1,20) == 1: newpix[temp1][temp2] = 10
     pixels = newpix.copy()
 while run:
     for event in pygame.event.get():
@@ -127,7 +127,7 @@ while run:
     for y in range(len(pixels)):
         for x in range(len(pixels[0])):
             for i in elm:
-                if pixels[y][x] == '': break
+                if pixels[y][x] == 0: break
                 if pixels[y][x] == i: pixel_array[x*pw:(x*pw)+pw, y*pw:(y*pw)+pw] = elm[i];break
     for i,y in enumerate(elm): pixel_array[w+1:round(w*1.5),i*50:(i*50)+50] = elm[y]
     pixel_array.close();
