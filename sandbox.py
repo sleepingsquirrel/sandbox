@@ -2,7 +2,7 @@ import pygame,time,random,math
 import numpy as np
 h = 1000; w=h; d = 100; pw = int(w/d);run = True;barrow = 0;size = 7
 pygame.init();window = pygame.display.set_mode((round(w*1.5),w ));clock = pygame.time.Clock();myfont = pygame.font.SysFont('Trebuchet MS', 30)
-pixels = np.array([[0 for _ in range(d)]for _ in range(d)]); pixels[1][1] = 4;elm = {1:(50,50,50),2:(0,0,200),3:(219, 211, 187),4:(247, 169, 73),5:(217, 217, 217),6:(25,25,25),7:(54, 63, 70),8:(237, 232, 231),9:(207, 129, 33),10:(151, 214, 190)}
+pixels = np.array([[0 for _ in range(d)]for _ in range(d)]); pixels[1][1] = 4;elm = {0:(0,0,0),1:(50,50,50),2:(0,0,200),3:(219, 211, 187),4:(247, 169, 73),5:(217, 217, 217),6:(25,25,25),7:(54, 63, 70),8:(237, 232, 231),9:(207, 129, 33),10:(151, 214, 190)}
 def Reverse(tuples): return tuples[::-1]
 def update():
     global pixels
@@ -108,6 +108,9 @@ def update():
                             elif newpix[temp1][temp2] == 8 and random.randint(1,70) == 1: newpix[temp1][temp2] = 9
                             elif newpix[temp1][temp2] == 3 and random.randint(1,20) == 1: newpix[temp1][temp2] = 10
     pixels = newpix.copy()
+pixel_array = pygame.PixelArray(window)
+for i,y in enumerate(elm): pixel_array[w+1:round(w*1.5),i*50:(i*50)+50] = elm[y]
+pixel_array.close()
 while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: run = False
@@ -123,15 +126,10 @@ while run:
             else:
                 for i,y in enumerate(elm):
                     if pos[1] < 50*i+50 and pos[1] > 50*i: barrow = y
-    window.fill(0); pixel_array = pygame.PixelArray(window); update()
+    pixel_array = pygame.PixelArray(window); update()
     for y in range(len(pixels)):
         for x in range(len(pixels[0])):
-            for i in elm:
-                if pixels[y][x] == 0: break
-                if pixels[y][x] == i: pixel_array[x*pw:(x*pw)+pw, y*pw:(y*pw)+pw] = elm[i];break
-    for i,y in enumerate(elm): pixel_array[w+1:round(w*1.5),i*50:(i*50)+50] = elm[y]
-    pixel_array.close();
-    window.blit(myfont.render(str(round(clock.get_fps())), False, (255, 0, 0) if clock.get_fps() < 10 else (0,255,0)),(w-50,h-50))
-    pygame.display.flip()
-    clock.tick(30)
+            pixel_array[x*pw:(x*pw)+pw, y*pw:(y*pw)+pw] = elm[pixels[y][x]]
+
+    pixel_array.close();window.blit(myfont.render(str(round(clock.get_fps())), False, (255, 0, 0) if clock.get_fps() < 10 else (0,255,0)),(w-50,h-50)); pygame.display.flip(); clock.tick(30)
 pygame.quit();exit()
