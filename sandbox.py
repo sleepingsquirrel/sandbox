@@ -46,8 +46,8 @@ def update():
                     mod = 1
                     if random.randint(0,1) == 1: mod*=-1
                     if random.randint(0,1) == 1: pass
-                    elif newpix[y-1][x+mod]    == '' : newpix[y-1][x+mod]    = 'f';newpix[y][x]  = ''
-                    else: newpix[y][x] = ''
+                    elif newpix[y-1][x+mod]    == '' : newpix[y-1][x+mod]    = 'f';newpix[y][x]  = '';continue
+                    else: newpix[y][x] = '';continue
                     for i in range(3):
                         for z in range(3):
                             temp1 = y+(i-1);temp2 = x+(z-1)
@@ -93,9 +93,9 @@ def update():
                     if x >= len(newpix)-1: x = -1
                     mod = 1
                     if random.randint(0,1) == 1: mod*=-1
-                    if random.randint(0,1) == 1: pass
-                    elif newpix[y+1][x+mod]    == '' : newpix[y+1][x+mod]    = 'b';newpix[y][x]  = ''
-                    elif random.randint(0,4)   == 1 and newpix[y-1][x+mod] != 'b': newpix[y][x] = 'm'
+                    if random.randint(0,1) == 1: continue
+                    elif newpix[y+1][x+mod]    == '' : newpix[y+1][x+mod]    = 'b';newpix[y][x]  = '' ;continue
+                    elif random.randint(0,4)   == 1 and newpix[y-1][x+mod] != 'b': newpix[y][x] = 'm' ;continue
                     for i in range(3):
                         for z in range(3):
                             temp1 = y+(i-1);temp2 = x+(z-1);ra =random.randint(1,3)
