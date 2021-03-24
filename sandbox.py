@@ -2,7 +2,7 @@ import pygame,time,random,math
 import numpy as np
 h = 1000; w=h; d = 100; pw = int(w/d);run = True;barrow = 0;size = 7
 pygame.init();window = pygame.display.set_mode((round(w*1.5),w ));clock = pygame.time.Clock();myfont = pygame.font.SysFont('Trebuchet MS', 30)
-pixels = np.array([[0 for _ in range(d)]for _ in range(d)]); pixels[1][1] = 4;elm = {0:(0,0,0),1:(50,50,50),2:(0,0,200),3:(219, 211, 187),4:(247, 169, 73),5:(217, 217, 217),6:(25,25,25),7:(54, 63, 70),8:(237, 232, 231),9:(207, 129, 33),10:(151, 214, 190)}
+pixels = [bytearray(d) for _ in range(d)]; pixels[1][1] = 4;elm = {0:(0,0,0),1:(50,50,50),2:(0,0,200),3:(219, 211, 187),4:(247, 169, 73),5:(217, 217, 217),6:(25,25,25),7:(54, 63, 70),8:(237, 232, 231),9:(207, 129, 33),10:(151, 214, 190)}
 def Reverse(tuples): return tuples[::-1]
 def update():
     global pixels
